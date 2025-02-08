@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block title %}
+ShadowLock by GetSetDeployed
+{% endblock title %}
+
+{% block body %}
+
+
+<div>
+    {% for message in messages %}
+    <p>{{ message }}</p>    
+    {% endfor %}
+</div>
+
+{% endblock body %}

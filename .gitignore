@@ -1,0 +1,5 @@
+.env
+db.sqlite3
+/staticfiles
+/ShadowLock/__pycache
+/website/__pycache

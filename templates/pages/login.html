@@ -1,0 +1,32 @@
+{% extends "_base.html" %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block body %}
+<div class="flex justify-center items-center h-screen bg-gray-900">
+    <div class="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-semibold text-gray-200 text-center mb-6">
+            Login to <span class="text-purple-500">ShadowLock</span>
+        </h2>
+        {% if messages %}
+            <div class="mb-4 p-3 bg-red-500 text-white rounded-md">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <form hx-post="{% url "login" %}" hx-target="#body" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-push-url="true" class="flex flex-col gap-4">
+            <input type="text" name="username" class="p-3 text-lg rounded-md border border-gray-600 bg-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none" placeholder="Username" required>
+            <input type="password" name="password" class="p-3 text-lg rounded-md border border-gray-600 bg-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none" placeholder="Password" required>
+            <button type="submit" class="p-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:-translate-y-1">
+                Login
+            </button>
+        </form>
+        <a href="#" class="block text-center mt-4 text-gray-400 hover:text-gray-200 transition" hx-get="{% url "home" %}" hx-target="#body" hx-swap="innerHTML" hx-push-url="true">Back</a>
+    </div>
+</div>
+{% endblock body %}
