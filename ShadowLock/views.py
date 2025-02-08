@@ -6,6 +6,18 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+
+def unauthenticated_user(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')  # Redirect logged-in users to home or dashboard
+        return view_func(request, *args, **kwargs)
+    return wrapper_func
+
+@unauthenticated_user
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -21,6 +33,7 @@ def login_view(request):
 
     return render(request, 'pages/login.html')
 
+@login_required(login_url='login')
 def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out successfully!")
