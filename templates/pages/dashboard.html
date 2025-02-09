@@ -1,7 +1,10 @@
 {% extends "_base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock title %}
+
 {% block body %}
-
-
 <ol id="container" >
   {% if not user.is_superuser %}
   <li class="flex flex-col items-center justify-center min-h-[80vh] text-center p-6">
