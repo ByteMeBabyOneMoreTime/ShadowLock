@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ShadowLock - GetSetDeployed</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#0A0A0A',
+                        'brand-purple': '#8A4FFF',
+                        'brand-cyan': '#40E0D0',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        </style>
+    </head>
+    <body class="bg-brand-dark text-white">
+        <!-- Navigation -->
+        <nav class="fixed w-full z-50 bg-brand-dark/60 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="#" class="text-2xl font-bold text-brand-cyan">ShadowLock</a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#features"
+                               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                            <a href="#services"
+                               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</a>
+                            <a href="#pricing"
+                               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Pricing</a>
+                            <a href="#contact"
+                               class="bg-brand-purple text-white px-4 py-2 rounded-full hover:bg-purple-700 transition">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Hero Section -->
+        <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-purple/20 to-brand-dark opacity-90"></div>
+            <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple animate-fade-in">
+                    Secure Your Digital Ecosystem
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto animate-fade-in delay-200">
+                    ShadowLock by GetSetDeployed offers cutting-edge security solutions with seamless project management and communication tools.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#get-started"
+                       class="px-8 py-3 bg-brand-cyan text-brand-dark font-semibold rounded-full hover:scale-105 transition transform">
+                        Get Started
+                    </a>
+                    <a href="#features"
+                       class="px-8 py-3 border border-brand-purple text-brand-purple rounded-full hover:bg-brand-purple hover:text-white transition transform">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </header>
+        <!-- Features Section -->
+        <section id="features" class="py-20 bg-brand-dark/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple">
+                        Powerful Features
+                    </h2>
+                    <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                        Innovative solutions designed to streamline your workflow and enhance security.
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 hover:border-brand-purple transition group">
+                        <div class="mb-4 text-brand-cyan text-4xl">🔒</div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Advanced Security</h3>
+                        <p class="text-gray-400">Multi-layered security protocols ensuring your data remains completely protected.</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 hover:border-brand-purple transition group">
+                        <div class="mb-4 text-brand-cyan text-4xl">📊</div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Project Management</h3>
+                        <p class="text-gray-400">Intuitive dashboard for tracking progress, managing teams, and optimizing workflows.</p>
+                    </div>
+                    <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700/50 hover:border-brand-purple transition group">
+                        <div class="mb-4 text-brand-cyan text-4xl">📨</div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Communication Hub</h3>
+                        <p class="text-gray-400">Seamless email management and collaboration tools integrated into one platform.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer class="bg-brand-dark/80 py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-brand-cyan">ShadowLock</h3>
+                    <p class="text-gray-400">Revolutionary platform merging security, project management, and communication.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Quick Links</h4>
+                    <nav class="space-y-2">
+                        <a href="#" class="text-gray-400 hover:text-brand-cyan">Home</a>
+                        <a href="#features" class="text-gray-400 hover:text-brand-cyan">Features</a>
+                        <a href="#services" class="text-gray-400 hover:text-brand-cyan">Services</a>
+                    </nav>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p>Email: support@shadowlock.com</p>
+                        <p>Phone: +1 (555) 123-4567</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Newsletter</h4>
+                    <form class="space-y-2">
+                        <input type="email"
+                               placeholder="Your email"
+                               class="w-full p-2 bg-gray-800 rounded border border-gray-700 focus:ring-2 focus:ring-brand-purple">
+                        <button class="w-full bg-brand-cyan text-brand-dark py-2 rounded hover:opacity-90">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center text-gray-500 mt-8 border-t border-gray-800 pt-4">
+                © 2025 ShadowLock by GetSetDeployed. All rights reserved.
+            </div>
+        </footer>
+    </body>
+</html>
