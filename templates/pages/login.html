@@ -5,13 +5,28 @@ Login
 {% endblock title %}
 
 {% block body %}
+<!-- FontAwesome CDN for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<!-- Tailwind CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet" />
+<link href="../input.css" rel="stylesheet">
+
+
 <div class="flex justify-center items-center h-screen bg-gray-900">
-    <div class="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg">
-        <h2 class="text-3xl font-semibold text-gray-200 text-center mb-6">
-            Login to <span class="text-purple-500">ShadowLock</span>
-        </h2>
+    <!-- Main Login Container -->
+    <div class="w-full max-w-2xl bg-gray-800 p-10 rounded-2xl shadow-2xl transform transition-all duration-500 hover:scale-105">
+        <!-- Logo and Heading -->
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-extrabold text-white text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 -webkit-text-fill-color-transparent">
+                ShadowLock
+            </h1>
+            <p class="mt-2 text-gray-400">Secure your world with ShadowLock</p>
+        </div>
+
+        <!-- Messages (if any) -->
         {% if messages %}
-            <div class="mb-4 p-3 bg-red-500 text-white rounded-md">
+            <div class="mb-6 p-4 bg-red-500/20 text-red-300 rounded-lg border border-red-500/50">
                 <ul>
                     {% for message in messages %}
                         <li>{{ message }}</li>
@@ -19,14 +34,83 @@ Login
                 </ul>
             </div>
         {% endif %}
-        <form hx-post="{% url "login" %}" hx-target="#body" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-push-url="true" class="flex flex-col gap-4">
-            <input type="text" name="username" class="p-3 text-lg rounded-md border border-gray-600 bg-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none" placeholder="Username" required>
-            <input type="password" name="password" class="p-3 text-lg rounded-md border border-gray-600 bg-gray-700 text-gray-200 focus:border-blue-500 focus:outline-none" placeholder="Password" required>
-            <button type="submit" class="p-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:-translate-y-1">
+
+        <!-- Login Form -->
+        <form hx-post="{% url 'login' %}" hx-target="#body" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-push-url="true" class="flex flex-col gap-6">
+            <!-- Username Field -->
+            <div class="space-y-2">
+                <label for="username" class="text-gray-300 font-medium">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="w-full p-4 text-lg rounded-lg border border-gray-700 bg-gray-900 text-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all duration-300"
+                    placeholder="Enter your username"
+                    required
+                />
+            </div>
+
+            <!-- Password Field with Toggle Button -->
+            <div class="space-y-2 relative">
+                <label for="password" class="text-gray-300 font-medium">Password</label>
+                <div class="relative">
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="w-full p-4 text-lg rounded-lg border border-gray-700 bg-gray-900 text-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all duration-300 pr-12"
+                        placeholder="Enter your password"
+                        required
+                    />
+                    <!-- Toggle Password Visibility Button -->
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        class="absolute inset-y-0 right-0 px-4 py-3 text-gray-400 hover:text-gray-200 transition-all duration-300"
+                        onclick="togglePasswordVisibility()"
+                    >
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="w-full p-4 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 active:scale-95"
+            >
                 Login
             </button>
         </form>
-        <a href="#" class="block text-center mt-4 text-gray-400 hover:text-gray-200 transition" hx-get="{% url "home" %}" hx-target="#body" hx-swap="innerHTML" hx-push-url="true">Back</a>
+
+        <!-- Back Link -->
+        <div class="mt-6 text-center">
+            <a
+                href="#"
+                class="text-gray-400 hover:text-gray-200 transition-all duration-300"
+                hx-get="{% url 'home' %}"
+                hx-target="#body"
+                hx-swap="innerHTML"
+                hx-push-url="true"
+            >
+                ← Back to Home
+            </a>
+        </div>
     </div>
 </div>
+
+<!-- JavaScript for Toggle Password Visibility -->
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleButton = document.getElementById('togglePassword');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        } else {
+            passwordInput.type = 'password';
+            toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
+        }
+    }
+</script>
 {% endblock body %}

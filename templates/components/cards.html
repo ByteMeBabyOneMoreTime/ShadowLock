@@ -1,103 +1,123 @@
 {% load static %}
 
-<div class="flex-1 overflow-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4" >
-{% for x in instances %}
-<li class="w-full md:w-[600px] group"> <!-- Fixed width container -->
-    <div class="relative p-px bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-shadow duration-300">
-        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 hs-dropdown [--trigger:contextmenu] relative z-20"
-            data-hs-dropdown 
-            data-hs-dropdown-trigger="contextmenu"
-            data-hs-dropdown-strategy="absolute">
-            
-            <!-- Rest of your existing card content remains the same -->
-            <div class="hs-dropdown-toggle cursor-context-menu">
-                <div class="flex justify-between items-start">
-                    <div class="w-full">
-                        <h5 class="mb-3 text-lg font-semibold text-gray-800 dark:text-gray-200">{{ x.name }}</h5>
-                        <div class="mb-3">
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">URL:</span>
-                            <a href="{{ x.url }}" class="block text-sm text-blue-600 hover:underline truncate dark:text-blue-400" target="_blank">{{ x.url }}</a>
-                        </div>
-                        <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-900 p-3 rounded-lg mb-3">
-                            <span id="password-{{ forloop.counter }}" class="blur-sm select-none text-sm font-mono">{{ x.password }}{{ x.environment }}</span>
-                            <button onclick="togglePassword({{ forloop.counter }})" class="p-1 hover:bg-gray-200 rounded-lg dark:hover:bg-gray-700">
-                                <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                            <span>Created: {{ x.created_at|date:"M j, Y" }}</span> • 
-                            <span>Updated: {{ x.updated_at|date:"M j, Y" }}</span>
-                        </div>
-                        <div>
-                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Shared With:</span>
-                            <div class="mt-1 flex flex-wrap gap-1.5">
-                                {% if x.shared_with.all %}
-                                    {% for user in x.shared_with.all %}
-                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full dark:bg-blue-900 dark:text-blue-300">
-                                            {{ user.username }}
-                                        </span>
-                                    {% endfor %}
-                                {% else %}
-                                    <span class="text-gray-400 text-xs dark:text-gray-500">None</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for x in instances %}
+    <div class="group relative h-full">
+      <!-- Animated border gradient -->
+      <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
+      
+      <!-- Card content -->
+      <div class="relative h-full bg-gray-900/90 backdrop-blur-xl rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <!-- Header -->
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+              {{ x.name }}
+            </h3>
+            <div class="flex items-center space-x-2">
+              <button onclick="togglePassword({{ forloop.counter }})" 
+                      class="p-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 transition-colors">
+                <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
             </div>
+          </div>
 
-            <!-- Context Menu (keep this part unchanged) -->
-            <div class="hs-dropdown-menu hidden min-w-48 bg-white shadow-md rounded-lg dark:bg-neutral-800 dark:border dark:border-neutral-700 z-50" role="menu">
-                {% if x.password %}
-                <div class="p-1 space-y-0.5 border-b border-gray-200 dark:border-neutral-800">
-                    <button onclick="togglePassword({{ forloop.counter }})"
-                        class="w-full flex items-center gap-x-3 py-1.5 px-3 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700">
-                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Show Password
-                    </button>
-                    <button onclick="copyPassword({{ forloop.counter }})"
-                        class="w-full flex items-center gap-x-3 py-1.5 px-3 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700">
-                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.166 2.888c.005.295.047.583.118.857a2.25 2.25 0 01-.326 1.631l-.621-.791a.75.75 0 00-.53-.22H4.5A2.25 2.25 0 002.25 9v6A2.25 2.25 0 004.5 17.25h15A2.25 2.25 0 0021.75 15V9a2.25 2.25 0 00-2.25-2.25h-2.097a.75.75 0 00-.53.22l-.621.791a2.25 2.25 0 01-.326 1.631 4.924 4.924 0 00.118.857z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 14.25a3 3 0 01-3 3m3-3a3 3 0 00-3-3m3 3h1.5a2.25 2.25 0 002.25-2.25V9A2.25 2.25 0 0019.5 6.75h-1.5" />
-                        </svg>
-                        Copy Password
-                    </button>
-                </div>                
-                {% else %}
-                <div class="p-1 space-y-0.5 border-b border-gray-200 dark:border-neutral-800">
-                    <button onclick="togglePassword({{ forloop.counter }})"
-                        class="w-full flex items-center gap-x-3 py-1.5 px-3 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700">
-                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Show Environment
-                    </button>
-                    <button onclick="copyPassword({{ forloop.counter }})"
-                        class="w-full flex items-center gap-x-3 py-1.5 px-3 rounded-lg text-[13px] text-gray-800 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-700">
-                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.166 2.888c.005.295.047.583.118.857a2.25 2.25 0 01-.326 1.631l-.621-.791a.75.75 0 00-.53-.22H4.5A2.25 2.25 0 002.25 9v6A2.25 2.25 0 004.5 17.25h15A2.25 2.25 0 0021.75 15V9a2.25 2.25 0 00-2.25-2.25h-2.097a.75.75 0 00-.53.22l-.621.791a2.25 2.25 0 01-.326 1.631 4.924 4.924 0 00.118.857z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 14.25a3 3 0 01-3 3m3-3a3 3 0 00-3-3m3 3h1.5a2.25 2.25 0 002.25-2.25V9A2.25 2.25 0 0019.5 6.75h-1.5" />
-                        </svg>
-                        Copy Environment
-                    </button>
-                </div>
-                {% endif %}
+          <!-- URL -->
+          <div class="mb-4">
+            <span class="text-sm text-gray-400 block mb-1">URL</span>
+            <a href="{{ x.url }}" class="text-sm text-cyan-400 hover:text-cyan-300 truncate block max-w-full" target="_blank">
+              {{ x.url }}
+            </a>
+          </div>
+
+          <!-- Password/Environment Field -->
+          <div class="mb-4">
+            <span class="text-sm text-gray-400 block mb-1">
+              {% if x.password %}Password{% else %}Environment{% endif %}
+            </span>
+            <div class="bg-black/30 border border-blue-500/20 rounded-xl p-3 flex items-center">
+              <code id="password-{{ forloop.counter }}" class="font-mono text-sm blur-sm select-none text-gray-300 flex-grow truncate">
+                {{ x.password }}{{ x.environment }}
+              </code>
+              <button onclick="copyPassword({{ forloop.counter }})" 
+                      class="ml-2 p-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 transition-colors">
+                <svg class="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+              </button>
             </div>
+          </div>
+
+          <!-- Metadata -->
+          <div class="flex justify-between text-xs text-gray-500 mb-4">
+            <span>Created: {{ x.created_at|date:"M j, Y" }}</span>
+            <span>Updated: {{ x.updated_at|date:"M j, Y" }}</span>
+          </div>
+
+          <!-- Shared Users -->
+          <div>
+            <span class="text-sm text-gray-400 block mb-2">Shared Access</span>
+            <div class="flex flex-wrap gap-2">
+              {% if x.shared_with.all %}
+                {% for user in x.shared_with.all %}
+                  <span class="px-3 py-1 text-xs rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                    {{ user.username }}
+                  </span>
+                {% endfor %}
+              {% else %}
+                <span class="text-xs text-gray-600">No shared access</span>
+              {% endif %}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</li>
-{% empty %}
-<li class="p-6 text-center text-gray-500 dark:text-gray-400">No saved Entries found.</li>
-{% endfor %}
+    {% empty %}
+    <div class="col-span-full flex items-center justify-center min-h-[400px]">
+      <p class="text-gray-500 text-lg">No entries found in secure vault</p>
+    </div>
+    {% endfor %}
+  </div>
 </div>
+
 {% block script %}
-<script src="{% static "js/passwords.js" %}"></script>
-{% endblock script %}
+<script>
+function togglePassword(id) {
+    let passElement = document.getElementById(`password-${id}`);
+    let toggleButton = event.currentTarget;
+    
+    if (passElement.classList.contains("blur-sm")) {
+        passElement.classList.remove("blur-sm");
+        toggleButton.innerHTML = `
+            <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M11 14.25l2.25 2.25m0 0l2.25 2.25 2.828-2.828m-9.9-6.364l2.828 2.828" />
+            </svg>
+        `;
+    } else {
+        passElement.classList.add("blur-sm");
+        toggleButton.innerHTML = `
+            <svg class="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+        `;
+    }
+}
+
+function copyPassword(id) {
+    let passElement = document.getElementById(`password-${id}`);
+    let password = passElement.innerText;
+
+    navigator.clipboard.writeText(password).then(() => {
+        // Optional: Add a temporary tooltip or notification
+        alert("Copied to clipboard!");
+    }).catch(err => {
+        console.error("Failed to copy: ", err);
+    });
+}
+</script>
+{% endblock %}

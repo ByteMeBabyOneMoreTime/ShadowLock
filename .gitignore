@@ -3,3 +3,11 @@ db.sqlite3
 /staticfiles
 /ShadowLock/__pycache
 /website/__pycache
+/myenv/
+/package-lock.json
+/package.json
+/input.css
+input.css
+/node_modules/
+/src/
+/website/__pycache__
